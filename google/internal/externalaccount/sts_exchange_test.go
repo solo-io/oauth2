@@ -13,7 +13,7 @@ import (
 	"net/url"
 	"testing"
 
-	"golang.org/x/oauth2"
+	"github.com/solo-io/oauth2"
 )
 
 var auth = clientAuthentication{
