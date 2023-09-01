@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"math"
 	"mime"
 	"net/http"
@@ -200,6 +201,8 @@ func RetrieveToken(ctx context.Context, clientID, clientSecret, tokenURL string,
 		}
 	}
 	req, err := newTokenRequest(tokenURL, clientID, clientSecret, v, authStyle)
+
+	log.Printf("token request: %+v", req)
 	if err != nil {
 		return nil, err
 	}
