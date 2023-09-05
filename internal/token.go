@@ -252,6 +252,8 @@ func doTokenRoundTrip(ctx context.Context, req *http.Request) (*Token, error) {
 		return nil, fmt.Errorf("oauth2: cannot fetch token: %v", err)
 	}
 
+	fmt.Print("Token response: ", r)
+
 	failureStatus := r.StatusCode < 200 || r.StatusCode > 299
 	retrieveError := &RetrieveError{
 		Response: r,
