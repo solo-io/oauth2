@@ -162,6 +162,7 @@ func setAuthStyle(tokenURL string, v AuthStyle) {
 // the POST body (along with any values in v); false means to send it
 // in the Authorization header.
 func newTokenRequest(tokenURL, clientID, clientSecret string, v url.Values, authStyle AuthStyle) (*http.Request, error) {
+	fmt.Println("Auth style: ", authStyle)
 	if authStyle == AuthStyleInParams {
 		v = cloneURLValues(v)
 		if clientID != "" {
