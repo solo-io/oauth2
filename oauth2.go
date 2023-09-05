@@ -12,7 +12,7 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	"log"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -213,7 +213,7 @@ func (c *Config) PasswordCredentialsToken(ctx context.Context, username, passwor
 // Opts may include the PKCE verifier code if previously used in AuthCodeURL.
 // See https://www.oauth.com/oauth2-servers/pkce/ for more info.
 func (c *Config) Exchange(ctx context.Context, code string, opts ...AuthCodeOption) (*Token, error) {
-	log.Print("In Exchange")
+	fmt.Print("In Exchange")
 	v := url.Values{
 		"grant_type": {"authorization_code"},
 		"code":       {code},
