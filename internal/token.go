@@ -172,7 +172,7 @@ func newTokenRequest(tokenURL, clientID, clientSecret string, v url.Values, auth
 		}
 	}
 
-	v["audience"] = []string{"https://glootest-jwt.com:32500/"}
+	// v["audience"] = []string{"https://glootest-jwt.com:32500/"}
 
 	fmt.Println("Token request map", v)
 
@@ -208,12 +208,13 @@ func RetrieveToken(ctx context.Context, clientID, clientSecret, tokenURL string,
 	}
 	req, err := newTokenRequest(tokenURL, clientID, clientSecret, v, authStyle)
 
-	log.Printf("token request: %+v", req)
+	log.Printf("token request: %+v \n", req)
 	if err != nil {
 		return nil, err
 	}
 	token, err := doTokenRoundTrip(ctx, req)
 	if err != nil && needsAuthStyleProbe {
+		fmt.Println("needsAuthStyleProbe and error logic")
 		// If we get an error, assume the server wants the
 		// clientID & clientSecret in a different form.
 		// See https://code.google.com/p/goauth2/issues/detail?id=31 for background.
@@ -230,6 +231,8 @@ func RetrieveToken(ctx context.Context, clientID, clientSecret, tokenURL string,
 		req, _ = newTokenRequest(tokenURL, clientID, clientSecret, v, authStyle)
 		token, err = doTokenRoundTrip(ctx, req)
 	}
+
+	fmt.Println("Token response: ", token, err)
 	if needsAuthStyleProbe && err == nil {
 		setAuthStyle(tokenURL, authStyle)
 	}
@@ -244,7 +247,7 @@ func RetrieveToken(ctx context.Context, clientID, clientSecret, tokenURL string,
 func doTokenRoundTrip(ctx context.Context, req *http.Request) (*Token, error) {
 	r, err := ContextClient(ctx).Do(req.WithContext(ctx))
 	if err != nil {
-		fmt.Print("doTokenRoundTrip error ", err)
+		fmt.Println("doTokenRoundTrip error ", err)
 		return nil, err
 	}
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1<<20))
@@ -253,7 +256,7 @@ func doTokenRoundTrip(ctx context.Context, req *http.Request) (*Token, error) {
 		return nil, fmt.Errorf("oauth2: cannot fetch token: %v", err)
 	}
 
-	fmt.Print("Token response: ", r)
+	fmt.Println("Token response: ", r)
 
 	failureStatus := r.StatusCode < 200 || r.StatusCode > 299
 	retrieveError := &RetrieveError{

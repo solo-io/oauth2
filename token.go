@@ -171,6 +171,8 @@ func retrieveToken(ctx context.Context, c *Config, v url.Values) (*Token, error)
 		}
 		return nil, err
 	}
+
+	fmt.Println("token retrieved", tk)
 	return tokenFromInternal(tk), nil
 }
 
