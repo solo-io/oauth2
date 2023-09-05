@@ -172,7 +172,7 @@ func newTokenRequest(tokenURL, clientID, clientSecret string, v url.Values, auth
 		}
 	}
 
-	//v["authorization"] = []string{"audience=https://glootest-jwt.com:32500/"}
+	v["authorization"] = []string{"audience=https://glootest-jwt.com:32500/"}
 
 	fmt.Println("Token request map", v)
 
